@@ -47,7 +47,7 @@ class Juego:
         self.intercambiar_posicion(index, mover_a)
         return True
 
-    # redefino el print
+    # redefino el printASD
     def __str__(self):
         result = ''
         for i in range(3):

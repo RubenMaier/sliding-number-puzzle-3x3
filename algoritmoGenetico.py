@@ -33,12 +33,43 @@ class AlgoritmoGenetico:
         self.error = error / len(self.poblacion)
 
     def _seleccionar(self):
-        totales = []
-        corridas_totales = 0
+        """ ESTA HECHO EL SELECCION POR CONTROL, FALTA CONTINUAR LA SELECCION POR RULETA :$
+        seleccionados = []
+        aptitudes = map(lambda un_cromosoma: un_cromosoma.calcular_aptitud(), self.poblacion)
+        promedio_total = sum(aptitudes) / len(aptitudes)
+        aptitudes_promediadas = map(lambda una_aptitud: una_aptitud/promedio_total, aptitudes)
+        aptitudes_promediadas_decimales = []
+        i=0
         for cromosoma in self.poblacion:
-            w = 1 / (0.000001 + cromosoma.error)
-            corridas_totales += w
-            totales.append(corridas_totales)
+            if int(aptitudes_promediadas[i]) > 0:
+                j=0
+                while j<int(aptitudes_promediadas[i]): 
+                    seleccionados.append(cromosoma)
+                    j+=1
+                aptitudes_promediadas_decimales.append(aptitudes_promediadas[i] - int(aptitudes_promediadas[i]))
+            else:
+                aptitudes_promediadas_decimales.append(aptitudes_promediadas[i])    
+            i+=1
+
+        suma_aptitudes_promediadas_decimales = sum(aptitudes_promediadas_decimales)
+
+        aptitudes_porcentuales = map(lambda una_aptitud: una_aptitud*100/suma_aptitudes_promediadas_decimales, aptitudes_promediadas_decimales)
+
+        i=0
+        for cromosoma in self.poblacion:
+            if i > 0: aptitudes_porcentuales[i] = aptitudes_porcentuales[i] + aptitudes_porcentuales[i-1]
+            
+        #RULETA
+        for i in range(len(self.poblacion)-len(seleccionados)):
+        """
+        #salioRanking, no me juzguen, estaba cansado
+        cromosomas_con_aptitud = []
+        def obtenerAptitud(un_cromosoma):
+            return un_cromosoma.calcular_aptitud()
+        self.poblacion.sort(reverse=True, key=obtenerAptitud)
+
+
+
         def select_i():
             rnd = random.random() * corridas_totales
             for i, total in enumerate(totales):
@@ -50,24 +81,24 @@ class AlgoritmoGenetico:
             resultado.append(self.poblacion[i])
         self.poblacion = resultado
 
-    def _cruzar(self, always=False):
-        if len(self.poblacion) < 2:
-            return
-        cruzar_occur = math.ceil(len(self.poblacion) * self.tasa_de_cruce)
-        genes_aptos = [i for i in range(len(self.poblacion))]
-        for i in range(int(cruzar_occur)):
-            a, b = random.sample(genes_aptos, 2)
-            for idx, k in enumerate(genes_aptos):
-                if k == b or k == a:
-                    del genes_aptos[idx]
-            hijo_a, hijo_b = Cromosoma.cruzar(self.poblacion[a], self.poblacion[b])
-            if (hijo_a.error < min(self.poblacion[a].error, self.poblacion[b].error) and \
-               hijo_b.error < min(self.poblacion[a].error, self.poblacion[b].error)) or always:
-                self.poblacion[a] = hijo_a
-                self.poblacion[b] = hijo_b
+    def _cruzar(self):
+        for i in range(self.poblacion_inicial/2):
+            #cruzar los primeros 500
+            #el if sirve para que tome de a pares, espaciado en 2
+            if i > 0 and (i % 2 == 0):
+                #obtengo el punto de corte, que va de la posicion 1 (arranca en 0) a la anteultima posicion
+                punto_corte = random.randrange(1, len(self.poblacion[i].lista_de_movimientos)-2)
+                #si tienen ganas de dejarlo más lindo, se puede meter todo esto, dentro del cromosoma, en la funcion de cruzar (para no romper el encapsulamiento)
+                #obtengo el hijoA, formado por la primer parte del primer padre y la segunda parte del segundo padre
+                hijo_a = self.poblacion[i-1].lista_de_movimientos[0:punto_corte] + self.poblacion[i].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
+                hijo_b = self.poblacion[i].lista_de_movimientos[0:punto_corte] + self.poblacion[i-1].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
+                #reemplazo los padres por sus hijos
+                self.poblacion[i-1].lista_de_movimientos = hijo_a
+                self.poblacion[i].lista_de_movimientos = hijo_b
 
     def _mutar(self):
         for cromosoma in self.poblacion:
+            #si tienen ganas, pueden hacer que mute uno solito, no me parece mal que intente hacer mutar algunos segun los que salgan seleccionados por el random
             if random.random() < self.probabilidad_de_mutacion:
                 cromosoma.mutar(True)
 
@@ -75,10 +106,12 @@ class AlgoritmoGenetico:
         random.seed()
         self._iniciar_poblacion()
         iteracion = 0
+        #cambiar el error, por cantidad de iteraciones maximas
+        #habria que sacar el error, o de ultima, evaluarlo en base a la ponderacion de la longitud de manhattan de todos los movimientos (GENES) del cromosoma
         while iteracion < max_iter and (not self.el_mejor_cromosoma or self.el_mejor_cromosoma.costo_de_error_del_juego > error_ideal):
-            self._cruzar(always=True)
-            self._calcular_error()
-            self._seleccionar()
+            self._seleccionar()#self._calcular_error() funcion aptitud -> va adentro de seleccionar
+            self._cruzar()
+            #HAY QUE INICIALIZAR LA LISTA DE MOVIMIENTOS, YA QUE ARRANCA VACIA
             self._mutar()
             self._imprimir_resultado(iteracion)
             iteracion += 1

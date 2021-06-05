@@ -5,6 +5,7 @@ class Cromosoma:
     VALID_MOVES = ['norte', 'sur', 'oeste', 'este']
 
     def __init__(self, juego, gen=None):
+        #inicializar la lista de genes con movimientos random (no se van a cambiar la cantidad de movimientos, ya que entiendo que según el mail que nos mandaron, la cantidad puede quedar fija, y solo habría que revisar si con los movimientos que tenemos, se cumple la resolucion final del tablero)
         if gen is None:
             gen = []
         self.error = None
@@ -20,6 +21,13 @@ class Cromosoma:
         self.costo_de_error_del_juego = aux.costo()
         self.error_gen_len = len(self.lista_de_movimientos) * 0.01
         self.error = self.costo_de_error_del_juego + self.error_gen_len
+
+    def calcular_aptitud(self):
+        #calcular distancia manhattan para aumetar o disminuir valor
+        #penalizar si tiene algun movimiento invalido o si el estado final es incorrecto
+        #llama a la funcion movimientos
+        #devuelve un valor
+        return 1
 
     @staticmethod
     def cruzar(a, b):
@@ -42,12 +50,12 @@ class Cromosoma:
         return Cromosoma(a.juego, lista_de_movimientos_A), Cromosoma(b.juego, lista_de_movimientos_B)
 
     def mutar(self):
+        #cambiar si se quiere más o menos mutacion
         add_vs_mutate_chance = 0.5
+        #se podria sacar, si la lista de movimientos se inicializa al principio de todo
         if not self.lista_de_movimientos:
             add_vs_mutate_chance = 1.0
         if random.random() < add_vs_mutate_chance:
-            self.lista_de_movimientos.append(random.choice(self.VALID_MOVES))
-        else:
             i = random.randint(0, len(self.lista_de_movimientos)-1)
             self.lista_de_movimientos[i] = random.choice(self.VALID_MOVES)
 

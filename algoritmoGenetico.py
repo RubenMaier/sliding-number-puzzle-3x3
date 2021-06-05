@@ -68,19 +68,6 @@ class AlgoritmoGenetico:
             return un_cromosoma.calcular_aptitud()
         self.poblacion.sort(reverse=True, key=obtenerAptitud)
 
-
-
-        def select_i():
-            rnd = random.random() * corridas_totales
-            for i, total in enumerate(totales):
-                if rnd < total:
-                    return i
-        resultado = []
-        while len(resultado) < self.poblacion_inicial:
-            i = select_i()
-            resultado.append(self.poblacion[i])
-        self.poblacion = resultado
-
     def _cruzar(self):
         for i in range(self.poblacion_inicial/2):
             #cruzar los primeros 500

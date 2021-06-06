@@ -2,6 +2,7 @@ import numpy as np
 from random import randint, choice
 
 class Juego:
+    # inicio un tablero de 3x3
     def __init__(self):
         self.tablero = np.zeros((3, 3))
         index = 0
@@ -15,7 +16,7 @@ class Juego:
         self.tablero[a] = self.tablero[b]
         self.tablero[b] = aux
 
-    def mover_oeste(self):
+    def mover_este(self):
         index = np.where(self.tablero == 0)
         if index[1] == 2:
             return False
@@ -23,7 +24,7 @@ class Juego:
         self.intercambiar_posicion(index, mover_a)
         return True
 
-    def mover_este(self):
+    def mover_oeste(self):
         index = np.where(self.tablero == 0)
         if index[1] == 0:
             return False
@@ -31,7 +32,7 @@ class Juego:
         self.intercambiar_posicion(index, mover_a)
         return True
 
-    def mover_norte(self):
+    def mover_sur(self):
         index = np.where(self.tablero == 0)
         if index[0] == 2:
             return False
@@ -39,7 +40,7 @@ class Juego:
         self.intercambiar_posicion(index, mover_a)
         return True
 
-    def mover_sur(self):
+    def mover_norte(self):
         index = np.where(self.tablero == 0)
         if index[0] == 0:
             return False
@@ -57,6 +58,7 @@ class Juego:
             result += '\n'
         return result
     
+    # ejecuto un movimiento random entre 10 a 100 veces
     def mezclar(self):
         for i in range(randint(10, 100)):
             f = choice([
@@ -79,7 +81,7 @@ class Juego:
             if mostrarEnPantalla:
                 print(self)
 
-    def costo(self):
+    def manhattan(self):
         reference = {
             0: (0, 0),
             1: (0, 1),
@@ -97,6 +99,5 @@ class Juego:
         for i in range(9):
             index = np.where(self.tablero == i)
             ref_index = reference[i]
-            error += (index[0] - ref_index[0]) ** 2 + (index[1] - ref_index[1]) ** 2
-        error /= 9.0
-        return error[0]
+            error += ((index[0] - ref_index[0]) ** 2 + (index[1] - ref_index[1]) ** 2) ** (1/2)
+        return error 

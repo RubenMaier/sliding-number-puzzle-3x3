@@ -14,7 +14,7 @@ if __name__ == "__main__":
         juego = Juego()
         juego.mezclar()
         algoritmoGenetico = AlgoritmoGenetico(juego, TAMAÑO_DE_LA_POBLACION, PROBABILIDAD_DE_LA_MUTACION, TASA_DE_CRUCE)
-        algoritmoGenetico.solve(max_iter=MAX_ITERATION)
+        algoritmoGenetico.resolver(max_iter=MAX_ITERATION)
         print('\n\n====================================================')
         print('Original:')
         print(juego)

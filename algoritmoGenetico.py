@@ -69,7 +69,7 @@ class AlgoritmoGenetico:
     def _mutar(self):
         for cromosoma in self.poblacion:
             if random.random() < self.probabilidad_de_mutacion:
-                cromosoma.mutar(True)
+                cromosoma.mutar()
 
     def solve(self, max_iter=1000, error_ideal=0):
         random.seed()
@@ -86,7 +86,7 @@ class AlgoritmoGenetico:
 
     def _imprimir_resultado(self, iteracion):
         print('~~~~~~~~ iteracion: %d ~~~~~~~~' % iteracion)
-        print('tamaño de poblacion (%d) | error total (%0.4f)' % (
+        print('longitud de poblacion (%d) | error total (%0.4f)' % (
             len(self.poblacion),
             self.error
         ))

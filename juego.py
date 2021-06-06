@@ -2,7 +2,6 @@ import numpy as np
 from random import randint, choice
 
 class Juego:
-    # inicio un tablero de 3x3
     def __init__(self):
         self.tablero = np.zeros((3, 3))
         index = 0
@@ -48,7 +47,6 @@ class Juego:
         self.intercambiar_posicion(index, mover_a)
         return True
 
-    # redefino el print
     def __str__(self):
         result = ''
         for i in range(3):
@@ -58,16 +56,17 @@ class Juego:
             result += '\n'
         return result
     
-    # ejecuto un movimiento random entre 10 a 100 veces
     def mezclar(self):
-        for i in range(randint(10, 100)):
-            f = choice([
-                self.mover_sur,
-                self.mover_norte,
-                self.mover_este,
-                self.mover_oeste
-            ])
-            f()
+        self.mover_sur
+        self.mover_sur
+        self.mover_este
+        self.mover_este
+        self.mover_norte
+        self.mover_oeste
+        self.mover_norte
+        self.mover_este
+        self.mover_sur
+        self.mover_oeste
 
     def movimientos(self, listaDeMovimientos, mostrarEnPantalla=False):
         movimientoPosibles = {
@@ -78,7 +77,6 @@ class Juego:
         }
         hubo_movimiento_invalido = False
         for movimientoEnConcreto in listaDeMovimientos:
-            #probar en caso de que haya un movimiento falso, que retorne directamente falso y deje de aplicar el resto de los movimientos
             if(not(movimientoPosibles[movimientoEnConcreto]())):
                 hubo_movimiento_invalido = True
             if mostrarEnPantalla:

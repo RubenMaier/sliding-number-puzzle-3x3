@@ -1,7 +1,6 @@
 import random
 
 from copy import copy
-
 from cromosoma import Cromosoma
 
 class AlgoritmoGenetico:

@@ -9,10 +9,10 @@ class Cromosoma:
         # la cantidad puede quedar fija, y solo habria que revisar si con los movimientos que tenemos, 
         # se cumple la resolucion final del tablero)
         gen = []
-        longitud_cromosoma = 30
+        longitud_cromosoma = 18 #este es el valor que le resolvió a Ruben
+        #longitud_cromosoma = 30
         for i in range(longitud_cromosoma): 
-            aux = random.choice(self.VALID_MOVES)
-            gen.append(aux)
+            gen.append(random.choice(self.VALID_MOVES))
         self.juego = juego
         self.lista_de_movimientos = gen
 
@@ -21,7 +21,7 @@ class Cromosoma:
         # penalizar si tiene algun movimiento invalido o si el estado final es incorrecto
         # llama a la funcion movimientos
         # devuelve un valor
-        if (self.juego.movimientos(self.lista_de_movimientos) == False):
+        if (self.juego.movimientos(self.lista_de_movimientos) == True): #el true en movimietnos(se usa para que imprima en pantalla)
         	return 999
         return self.juego.manhattan()
 

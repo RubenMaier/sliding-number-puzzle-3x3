@@ -76,10 +76,14 @@ class Juego:
             'oeste': self.mover_oeste,
             'este': self.mover_este,
         }
+        hubo_movimiento_invalido = False
         for movimientoEnConcreto in listaDeMovimientos:
-            movimientoPosibles[movimientoEnConcreto]()
+            #probar en caso de que haya un movimiento falso, que retorne directamente falso y deje de aplicar el resto de los movimientos
+            if(not(movimientoPosibles[movimientoEnConcreto]())):
+                hubo_movimiento_invalido = True
             if mostrarEnPantalla:
                 print(self)
+            return hubo_movimiento_invalido
 
     def manhattan(self):
         reference = {

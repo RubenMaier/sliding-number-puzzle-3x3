@@ -20,15 +20,19 @@ class AlgoritmoGenetico:
 
     def _seleccionar(self):
         def obtenerAptitud(un_cromosoma):
-            return un_cromosoma.calcular_aptitud()
+            aptitud = int(un_cromosoma.calcular_aptitud())
+            print("aptitud calculada: " + str(aptitud))
+            return aptitud
         # manhattan menor implica mejor solucion
-        self.poblacion.sort(key=obtenerAptitud)
+        #poblacion_ordenada = self.poblacion.sort(reverse=True, key=obtenerAptitud)
+        sorted(self.poblacion, key=obtenerAptitud)
         self.el_mejor_cromosoma = copy(self.poblacion[0])
+        print("la mejor aptitud es: " + str(obtenerAptitud(self.el_mejor_cromosoma)))
         if (obtenerAptitud(self.poblacion[0]) == 0):
             self.no_es_aptitud_0 = False
 
     def _cruzar(self):
-        for i in range(self.poblacion_inicial/2):
+        for i in range(int(self.poblacion_inicial/2)):
             #cruzar los primeros 500
             #el if sirve para que tome de a pares, espaciado en 2
             if i > 0 and (i % 2 == 0):
@@ -40,8 +44,10 @@ class AlgoritmoGenetico:
                 hijo_a = self.poblacion[i-1].lista_de_movimientos[0:punto_corte] + self.poblacion[i].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
                 hijo_b = self.poblacion[i].lista_de_movimientos[0:punto_corte] + self.poblacion[i-1].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
                 #reemplazo los padres por sus hijos
-                self.poblacion[i-1].lista_de_movimientos = hijo_a
-                self.poblacion[i].lista_de_movimientos = hijo_b
+
+                #################################
+                #self.poblacion[i-1].lista_de_movimientos = hijo_a
+                #self.poblacion[i].lista_de_movimientos = hijo_b
 
     def _mutar(self):
         for cromosoma in self.poblacion:

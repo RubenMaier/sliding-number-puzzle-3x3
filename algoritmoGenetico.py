@@ -34,7 +34,8 @@ class AlgoritmoGenetico:
             if i > 0 and (i % 2 == 0):
                 #obtengo el punto de corte, que va de la posicion 1 (arranca en 0) a la anteultima posicion
                 punto_corte = random.randrange(1, len(self.poblacion[i].lista_de_movimientos)-2)
-                #si tienen ganas de dejarlo más lindo, se puede meter todo esto, dentro del cromosoma, en la funcion de cruzar (para no romper el encapsulamiento)
+                #si tienen ganas de dejarlo mas lindo, se puede meter todo esto, dentro del cromosoma, 
+                #en la funcion de cruzar (para no romper el encapsulamiento)
                 #obtengo el hijoA, formado por la primer parte del primer padre y la segunda parte del segundo padre
                 hijo_a = self.poblacion[i-1].lista_de_movimientos[0:punto_corte] + self.poblacion[i].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
                 hijo_b = self.poblacion[i].lista_de_movimientos[0:punto_corte] + self.poblacion[i-1].lista_de_movimientos[punto_corte+1:len(self.poblacion[i].lista_de_movimientos)]
@@ -46,7 +47,7 @@ class AlgoritmoGenetico:
         for cromosoma in self.poblacion:
             #si tienen ganas, pueden hacer que mute uno solito, no me parece mal que intente hacer mutar algunos segun los que salgan seleccionados por el random
             if random.random() < self.probabilidad_de_mutacion:
-                cromosoma.mutar(True)
+                cromosoma.mutar()
 
     def resolver(self, max_iter=1000):
         random.seed()
@@ -65,7 +66,7 @@ class AlgoritmoGenetico:
 
     def _imprimir_resultado(self, iteracion):
         print('~~~~~~~~ iteracion: %d ~~~~~~~~' % iteracion)
-        print('tamaño de poblacion (%d)' % (
+        print('longitud de poblacion (%d)' % (
             len(self.poblacion),
         ))
         if self.el_mejor_cromosoma:

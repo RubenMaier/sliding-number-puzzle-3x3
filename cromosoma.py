@@ -3,19 +3,18 @@ import random
 class Cromosoma:
     VALID_MOVES = ['norte', 'sur', 'oeste', 'este']
 
-    def __init__(self, juego):
+    def __init__(self, juego, longitud_cromosoma=10):
         gen = []
-        longitud_cromosoma = 10 
-        for i in range(longitud_cromosoma): 
-            gen.append(random.choice(self.VALID_MOVES))
-        
+        for i in range(longitud_cromosoma):
+            gen.append(random.choice(self.VALID_MOVES))   
         self.juego = juego
         self.lista_de_movimientos = gen
 
     def calcular_aptitud(self):
-        if (self.juego.movimientos(self.lista_de_movimientos) == True):
-        	return 999
-        return self.juego.manhattan()
+        result = 999
+        if (not(self.juego.movimientos(self.lista_de_movimientos) == True)):
+            result = self.juego.manhattan()
+        return result
 
     def mutar(self):
         add_vs_mutate_chance = 0.5

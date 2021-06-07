@@ -57,16 +57,14 @@ class Juego:
         return result
     
     def mezclar(self):
-        self.mover_sur
-        self.mover_sur
-        self.mover_este
-        self.mover_este
-        self.mover_norte
-        self.mover_oeste
-        self.mover_norte
-        self.mover_este
-        self.mover_sur
-        self.mover_oeste
+        for i in range(randint(10, 100)):
+            f = choice([
+                self.mover_sur,
+                self.mover_norte,
+                self.mover_este,
+                self.mover_oeste
+            ])
+            f()
 
     def movimientos(self, listaDeMovimientos, mostrarEnPantalla=False):
         movimientoPosibles = {
@@ -77,7 +75,7 @@ class Juego:
         }
         hubo_movimiento_invalido = False
         for movimientoEnConcreto in listaDeMovimientos:
-            if(not(movimientoPosibles[movimientoEnConcreto]())):
+            if (not(movimientoPosibles[movimientoEnConcreto]())):
                 hubo_movimiento_invalido = True
             if mostrarEnPantalla:
                 print(self)

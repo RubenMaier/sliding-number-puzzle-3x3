@@ -3,23 +3,21 @@ import copy
 from cromosoma import Cromosoma
 
 class AlgoritmoGenetico:
-    def __init__(self, juego, poblacion_inicial=1000, probabilidad_de_mutacion=0.9, tasa_de_cruce=0.3):
+    def __init__(self, juego, poblacion_inicial=1000, probabilidad_de_mutacion=0.5, longitud_cromosoma=10):
         self.juego = juego
         self.poblacion_inicial = poblacion_inicial
         self.probabilidad_de_mutacion = probabilidad_de_mutacion
-        self.tasa_de_cruce = tasa_de_cruce
         self.poblacion = []
         self.el_mejor_cromosoma = None
         self.no_es_aptitud_0 = True
+        self.longitud_cromosoma = longitud_cromosoma
 
     def _iniciar_poblacion(self):
-        self.poblacion = [Cromosoma(juego=self.juego) for _ in range(self.poblacion_inicial)]
+        self.poblacion = [Cromosoma(juego=self.juego, longitud_cromosoma=self.longitud_cromosoma) for _ in range(self.poblacion_inicial)]
 
     def _seleccionar(self):
         def obtenerAptitud(un_cromosoma):
-            aptitud = int(un_cromosoma.calcular_aptitud())
-            return aptitud
-            
+            return un_cromosoma.calcular_aptitud()
         sorted(self.poblacion, key=obtenerAptitud, reverse=True)
         self.el_mejor_cromosoma = copy.deepcopy(self.poblacion[0])
         if (obtenerAptitud(self.el_mejor_cromosoma) == 0):

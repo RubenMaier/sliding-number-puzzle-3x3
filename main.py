@@ -4,7 +4,7 @@ from juego import Juego
 from algoritmoGenetico import AlgoritmoGenetico
 
 PROBABILIDAD_DE_LA_MUTACION = 0.5
-LONGITUD_DE_LA_POBLACION = 200
+LONGITUD_DE_LA_POBLACION = 100
 MAX_ITERATION = 200
 LONGITUD_CROMOSOMA = 10
 

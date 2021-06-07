@@ -17,9 +17,14 @@ class AlgoritmoGenetico:
 
     def _seleccionar(self):
         def obtenerAptitud(un_cromosoma):
-            return un_cromosoma.calcular_aptitud()
-        sorted(self.poblacion, key=obtenerAptitud, reverse=True)
+            aptitud=un_cromosoma.calcular_aptitud()
+            return aptitud
+        listaParaOrdenar = copy.deepcopy(self.poblacion)
+        sorted(listaParaOrdenar, key=obtenerAptitud, reverse=True)
+        self.poblacion = listaParaOrdenar
+
         self.el_mejor_cromosoma = copy.deepcopy(self.poblacion[0])
+
         if (obtenerAptitud(self.el_mejor_cromosoma) == 0):
             self.no_es_aptitud_0 = False
 

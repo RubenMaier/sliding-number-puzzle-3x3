@@ -57,7 +57,7 @@ class Juego:
         return result
     
     def mezclar(self):
-        for i in range(randint(10, 100)):
+        for i in range(10):
             f = choice([
                 self.mover_sur,
                 self.mover_norte,
@@ -79,7 +79,7 @@ class Juego:
                 hubo_movimiento_invalido = True
             if mostrarEnPantalla:
                 print(self)
-            return hubo_movimiento_invalido
+        return hubo_movimiento_invalido
 
     def manhattan(self):
         reference = {
